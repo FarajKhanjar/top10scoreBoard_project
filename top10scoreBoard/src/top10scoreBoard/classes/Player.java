@@ -43,9 +43,9 @@ public class Player implements Comparable<Player>
 		return name;
 	}
 
-	public Country getCountry() 
+	public String getCountry() 
 	{
-		return country;
+		return Country.getNameOfCountey(country);
 	}
 
 	public float getRank() 
