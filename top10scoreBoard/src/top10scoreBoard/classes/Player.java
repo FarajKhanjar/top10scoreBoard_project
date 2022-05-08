@@ -22,6 +22,11 @@ public class Player implements Comparable<Player>
 		this.score = score;
 		setRank((float)(Math.random() * 50));
 	}
+	
+	public int getScore() 
+	{
+		return this.score;
+	}
 
 	private void setName(String name) 
 	{

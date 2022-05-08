@@ -7,13 +7,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class Board {
-	private PriorityQueue<Player> allPlayers;
-	private final int TOP = 10;
+public class Board 
+{
+	private List<Player> allPlayers;
+	
 
 	public Board() 
 	{
-		allPlayers = new PriorityQueue<>();
+		allPlayers = new ArrayList<>();
 	}
 
 	public void addGamer(Player player) 
@@ -28,8 +29,9 @@ public class Board {
 
 	public void update() 
 	{
-		updatePriorityQueue();
-		System.out.println("The top 10 (with the highest score) gamers:");
+		 int TOP = 10;
+		updateArrayOfPlayers();
+		//System.out.println("The top 10 (with the highest score) gamers:");
 		Iterator<Player> iterator = allPlayers.iterator();
 		for (int i = 1; i <= TOP && iterator.hasNext(); i++) 
 		{
@@ -40,31 +42,19 @@ public class Board {
 		}
 	}
 
-	private void updatePriorityQueue() 
+	private void updateArrayOfPlayers() 
 	{
-		PriorityQueue<Player> copy = getCopyOfPlayers();
+		List<Player> copyArrayPlayers = getCopyOfPlayers();
 
 		allPlayers.clear();
-		int size = copy.size();
+		int size = copyArrayPlayers.size();
 		for (int i = 0; i < size; i++) 
 		{
-			allPlayers.add(copy.remove());
+			allPlayers.add(copyArrayPlayers.get(i));
 		}
 	}
 
-	private PriorityQueue<Player> getCopyOfPlayers() 
-	{
-		PriorityQueue<Player> copy = new PriorityQueue<Player>();
-		Iterator<Player> iterator = allPlayers.iterator();
-
-		while (iterator.hasNext()) 
-		{
-			copy.add(iterator.next());
-		}
-		return copy;
-	}
-
-	private List<Player> getCopyListOfGamers() 
+	private List<Player> getCopyOfPlayers() 
 	{
 		List<Player> copy = new ArrayList<Player>();
 		Iterator<Player> iterator = allPlayers.iterator();
@@ -73,8 +63,25 @@ public class Board {
 		{
 			copy.add(iterator.next());
 		}
-
 		return copy;
+	}
+	
+	public void sortByUserScore() 
+	{
+		Comparator<Player> byUserScore = new Comparator<Player>() 
+		{
+			
+			@Override
+			public int compare(Player player1, Player player2) 
+			{
+				return Float.compare(player2.getScore(), player1.getScore());
+			}
+		};
+		
+		List<Player> copy = getCopyOfPlayers();
+		Collections.sort(copy,byUserScore);
+
+		printValues(copy);
 	}
 
 	public void sortByUserName() 
@@ -89,7 +96,7 @@ public class Board {
 			}
 		};
 
-		List<Player> copy = getCopyListOfGamers();
+		List<Player> copy = getCopyOfPlayers();
 
 		Collections.sort(copy, byUserName);
 		printValues(copy);
@@ -117,7 +124,7 @@ public class Board {
 			}
 		};
 
-		List<Player> copy = getCopyListOfGamers();
+		List<Player> copy = getCopyOfPlayers();
 		Collections.sort(copy, byUserCountry);
 		printValues(copy);
 	}
@@ -134,7 +141,7 @@ public class Board {
 			}
 		};
 		
-		List<Player> copy = getCopyListOfGamers();
+		List<Player> copy = getCopyOfPlayers();
 		Collections.sort(copy,byUserRank);
 
 		printValues(copy);

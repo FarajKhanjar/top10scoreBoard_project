@@ -18,8 +18,10 @@ public class Runner
 	{
 		createAllPlayersList();
 		createPlayersScore();
-		scoreBoard.update();
+		//scoreBoard.update();
 		
+		System.out.println("The top 10 (with the highest score) gamers:");
+		scoreBoard.sortByUserScore();
 		System.out.println("\nList sorted by the user name:");
 		scoreBoard.sortByUserName();
 		System.out.println("\nList sorted by the user country:");
