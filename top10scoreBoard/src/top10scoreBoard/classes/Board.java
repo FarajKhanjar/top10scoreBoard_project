@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class Board 
 {
@@ -17,7 +16,7 @@ public class Board
 		allPlayers = new ArrayList<>();
 	}
 
-	public void addGamer(Player player) 
+	public void addPlayer(Player player) 
 	{
 		if (player == null) 
 		{
@@ -27,13 +26,14 @@ public class Board
 		allPlayers.add(player);
 	}
 
-	public void update() 
+	public void updateBoard() 
 	{
-		 int TOP = 10;
-		updateArrayOfPlayers();
-		//System.out.println("The top 10 (with the highest score) gamers:");
-		Iterator<Player> iterator = allPlayers.iterator();
-		for (int i = 1; i <= TOP && iterator.hasNext(); i++) 
+		int top = 10;
+		List<Player> copyArrayPlayers = getCopyOfPlayers();
+		Collections.sort(copyArrayPlayers);
+		Iterator<Player> iterator = copyArrayPlayers.iterator();
+		
+		for (int i = 1; i <= top && iterator.hasNext(); i++) 
 		{
 			if(i==10)
 				System.out.println(i + ")" + iterator.next());
@@ -42,50 +42,21 @@ public class Board
 		}
 	}
 
-	private void updateArrayOfPlayers() 
-	{
-		List<Player> copyArrayPlayers = getCopyOfPlayers();
-
-		allPlayers.clear();
-		int size = copyArrayPlayers.size();
-		for (int i = 0; i < size; i++) 
-		{
-			allPlayers.add(copyArrayPlayers.get(i));
-		}
-	}
-
 	private List<Player> getCopyOfPlayers() 
 	{
-		List<Player> copy = new ArrayList<Player>();
+		List<Player> copyOfArray = new ArrayList<Player>();
 		Iterator<Player> iterator = allPlayers.iterator();
 
 		while (iterator.hasNext()) 
 		{
-			copy.add(iterator.next());
+			copyOfArray.add(iterator.next());
 		}
-		return copy;
-	}
-	
-	public void sortByUserScore() 
-	{
-		Comparator<Player> byUserScore = new Comparator<Player>() 
-		{
-			
-			@Override
-			public int compare(Player player1, Player player2) 
-			{
-				return Float.compare(player2.getScore(), player1.getScore());
-			}
-		};
-		
-		List<Player> copy = getCopyOfPlayers();
-		Collections.sort(copy,byUserScore);
-
-		printValues(copy);
+		return copyOfArray;
 	}
 
 	public void sortByUserName() 
 	{
+		List<Player> copyOfArray = getCopyOfPlayers();
 		Comparator<Player> byUserName = new Comparator<Player>() 
 		{
 
@@ -96,24 +67,13 @@ public class Board
 			}
 		};
 
-		List<Player> copy = getCopyOfPlayers();
-
-		Collections.sort(copy, byUserName);
-		printValues(copy);
-	}
-
-	private void printValues(List<Player> queue) 
-	{
-		Iterator<Player> iterator = queue.iterator();
-
-		while (iterator.hasNext()) 
-		{
-			System.out.println(iterator.next());
-		}
+		Collections.sort(copyOfArray, byUserName);
+		printListValues(copyOfArray);
 	}
 
 	public void sortByUserCountry() 
 	{
+		List<Player> copyOfArray = getCopyOfPlayers();
 		Comparator<Player> byUserCountry = new Comparator<Player>() 
 		{
 
@@ -124,13 +84,13 @@ public class Board
 			}
 		};
 
-		List<Player> copy = getCopyOfPlayers();
-		Collections.sort(copy, byUserCountry);
-		printValues(copy);
+		Collections.sort(copyOfArray, byUserCountry);
+		printListValues(copyOfArray);
 	}
 
 	public void sortByUserRank() 
 	{
+		List<Player> copyOfArray = getCopyOfPlayers();
 		Comparator<Player> byUserRank = new Comparator<Player>() 
 		{
 			
@@ -141,9 +101,17 @@ public class Board
 			}
 		};
 		
-		List<Player> copy = getCopyOfPlayers();
-		Collections.sort(copy,byUserRank);
+		Collections.sort(copyOfArray,byUserRank);
+		printListValues(copyOfArray);
+	}
+	
+	private void printListValues(List<Player> queue) 
+	{		
+		Iterator<Player> iterator = queue.iterator();
 
-		printValues(copy);
+		while (iterator.hasNext()) 
+		{
+			System.out.println(iterator.next());
+		}
 	}
 }

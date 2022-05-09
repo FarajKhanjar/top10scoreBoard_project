@@ -18,10 +18,9 @@ public class Runner
 	{
 		createAllPlayersList();
 		createPlayersScore();
-		//scoreBoard.update();
 		
 		System.out.println("The top 10 (with the highest score) gamers:");
-		scoreBoard.sortByUserScore();
+		scoreBoard.updateBoard();
 		System.out.println("\nList sorted by the user name:");
 		scoreBoard.sortByUserName();
 		System.out.println("\nList sorted by the user country:");
@@ -56,7 +55,7 @@ public class Runner
 		
 		while (iteratorOfPlayers.hasNext()) 
 		{
-			scoreBoard.addGamer(iteratorOfPlayers.next());
+			scoreBoard.addPlayer(iteratorOfPlayers.next());
 		}		
 
 		int[] scores = new int[playersList.size()];	
